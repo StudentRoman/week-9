@@ -8,6 +8,12 @@
 mvn clean compile assembly:single
 ```
 
+Для исправления кода с помощью spotless:
+
+```sh
+mvn spotless:apply
+```
+
 Для запуска проекта:
 
 ```sh

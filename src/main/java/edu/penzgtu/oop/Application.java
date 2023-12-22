@@ -9,6 +9,5 @@ public class Application {
   public static void main(String[] args) throws IOException {
     ConfigUtil.setConfig("config.properties");
     MainFrontend.show();
-    System.out.println("123");
   }
 }
