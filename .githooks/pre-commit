@@ -1,0 +1,29 @@
+#!/bin/sh
+
+echo "*********************************************************"
+echo "Running git pre-commit hook with Spotless Apply          "
+echo "*********************************************************"
+
+stagedFiles=$(git diff --staged --name-only)
+mvn spotless:apply
+status=$?
+
+if [ "$status" = 0 ] ; then
+    echo "Static analysis found no problems."
+    # Add staged file changes to git
+    for file in $stagedFiles; do
+      if test -f "$file"; then
+        git add $file
+      fi
+    done
+    #Exit
+    exit 0
+else
+    echo "*********************************************************"
+    echo 1>&2 "Spotless found violations that could not be fixed.  "
+    echo "*********************************************************"
+    #Exit
+    exit 1
+fi
+
+
