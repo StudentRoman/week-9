@@ -1,0 +1,100 @@
+@startuml
+class Customer {
+- int id
+- String name
++ <<Create>> Customer(int,String)
++ int getId()
++ String getName()
++ void setId(int)
++ void setName(String)
+}
+class Author {
+- int id
+- String name
+- int year
++ <<Create>> Author(int,String,int)
++ int getId()
++ String getName()
++ int getYear()
++ void setId(int)
++ void setName(String)
++ void setYear(int)
+}
+class Book {
+- int id
+- String name
+- Author author
+- int year
+- Publisher publisher
+- String ISBN
+- double price
++ <<Create>> Book(int,String,Author,int,Publisher,String,double)
++ int getId()
++ String getName()
++ Author getAuthor()
++ int getYear()
++ Publisher getPublisher()
++ String getISBN()
++ double getPrice()
++ void setId(int)
++ void setName(String)
++ void setAuthor(Author)
++ void setYear(int)
++ void setPublisher(Publisher)
++ void setISBN(String)
++ void setPrice(double)
++ String toString()
+}
+class Cart {
+- ArrayList<CustomerCart> cart
++ <<Create>> Cart(ArrayList<CustomerCart>)
++ ArrayList<CustomerCart> getCart()
++ void setCart(ArrayList<CustomerCart>)
+}
+class Publisher {
+- int id
+- String name
+- int year
++ <<Create>> Publisher(int,String,int)
++ int getId()
++ String getName()
++ int getYear()
++ void setId(int)
++ void setName(String)
++ void setYear(int)
+}
+class CustomerCart {
+- ArrayList<Book> list
+- double totalPrice
+- Customer customer
++ <<Create>> CustomerCart(ArrayList<Book>,double,Customer)
++ void addItem(Book)
++ void deleteItem(Book)
++ ArrayList<Book> getList()
++ double getTotalPrice()
++ Customer getCustomer()
++ void setList(ArrayList<Book>)
++ void setTotalPrice(double)
++ void setCustomer(Customer)
+}
+class Catalog {
+- ArrayList<Book> books
++ <<Create>> Catalog(ArrayList<Book>)
++ ArrayList<Book> getBooks()
++ void setBooks(ArrayList<Book>)
++ String toString()
+}
+
+Book *-- Author
+
+Book *-- Publisher
+
+Catalog o-- Book
+
+Cart o-- CustomerCart
+
+CustomerCart *-- Customer
+
+CustomerCart o-- Book
+
+@enduml

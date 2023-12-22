@@ -1,0 +1,136 @@
+@startuml
+class Catalog {
+- ArrayList<Book> books
++ <<Create>> Catalog(ArrayList<Book>)
++ ArrayList<Book> getBooks()
++ void setBooks(ArrayList<Book>)
++ String toString()
+}
+class Cart {
+- ArrayList<CustomerCart> cart
++ <<Create>> Cart(ArrayList<CustomerCart>)
++ ArrayList<CustomerCart> getCart()
++ void setCart(ArrayList<CustomerCart>)
+}
+class Customer {
+- int id
+- String name
++ <<Create>> Customer(int,String)
++ int getId()
++ String getName()
++ void setId(int)
++ void setName(String)
+}
+class Config {
+- {static} Properties config
++ {static} void setConfig(String)
+}
+
+class CartServiceImpl {
+- CartRepository cartRepository
+- boolean findBookInList(int,ArrayList<Book>)
++ ArrayList<CustomerCart> findAll()
++ CustomerCart findByName(String)
++ void createCart(Customer)
++ void addItem(String,Book)
++ void deleteItem(String,Book)
+}
+class CartRepository {
+- {static} JSONDataParser<Cart> cartParser
++ <<Create>> CartRepository()
++ ArrayList<CustomerCart> findAll()
++ CustomerCart findByName(String)
++ void insertOne(Customer)
++ void updateOne(String,Book)
++ void deleteOne(String,Book)
+}
+interface CatalogService {
+~ ArrayList<Book> findAll()
++ Book findById(int)
+}
+interface CartService {
+~ ArrayList<CustomerCart> findAll()
+~ CustomerCart findByName(String)
+~ void createCart(Customer)
+~ void addItem(String,Book)
+~ void deleteItem(String,Book)
+}
+class CatalogRepository {
+- {static} JSONDataParser<Catalog> catalogParser
++ <<Create>> CatalogRepository()
++ ArrayList<Book> findAll()
++ Book findById(int)
+}
+class CatalogServiceImpl {
+- CatalogRepository catalogRepository
++ ArrayList<Book> findAll()
++ Book findById(int)
+}
+class CatalogFrontend {
+- {static} CatalogServiceImpl catalogService
++ {static} void show()
+- {static} void choiceMenu()
+- {static} void showMenu()
+- {static} void showTable()
+- {static} int getUserChoiceInput()
+}
+class CartFrontend {
+- {static} CartServiceImpl cartService
+- {static} CatalogServiceImpl catalogService
+- {static} Customer currentCustomer
++ {static} void show()
++ {static} void initCustomerCart(String)
++ {static} void addProductToCart()
++ {static} void deleteProductFromCart()
+- {static} void getTotalPrice()
+- {static} void choiceMenu()
+- {static} void showMenu()
+- {static} void showTable()
+- {static} int getUserChoiceInput()
+}
+class MainFrontend {
++ {static} void show()
+- {static} void showMenu()
+- {static} void choiceMenu()
+- {static} int getUserChoiceInput()
+}
+class Application {
++ {static} void main(String[])
+}
+interface DataParser {
++ T parse()
++ void create(Object)
+}
+class JSONDataParser {
+- String dataPath
+- Class<T> model
++ <<Create>> JSONDataParser(String,Class<T>)
++ T parse()
++ void create(Object)
+}
+
+CartService <|.. CartServiceImpl
+DataParser <|.. JSONDataParser
+CatalogService <|.. CatalogServiceImpl
+
+CartFrontend *-- CatalogServiceImpl
+CartFrontend *-- CartServiceImpl
+CartFrontend *-- Customer
+
+CatalogFrontend *-- CatalogServiceImpl
+
+Cart <|-- CartRepository
+Catalog <|-- CatalogRepository
+
+JSONDataParser --* CatalogRepository
+CatalogServiceImpl *-- CatalogRepository
+
+JSONDataParser --* CartRepository
+CartServiceImpl *-- CartRepository
+
+Application *-- Config
+Application *-- MainFrontend
+
+MainFrontend *-- CartFrontend
+MainFrontend *-- CatalogFrontend
+@enduml
